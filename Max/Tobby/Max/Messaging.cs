@@ -316,7 +316,7 @@ namespace Tobby.Max
                     case 12:
                         // WallThermostat+ (as it's very similiar to HeaterThermostats
                         byte valve = data[offset + 7];
-                        double setTemp = (data[offset + 8] & 0x3F)/2;
+                        double setTemp = (data[offset + 8] & 0x3F)/2.0;
                         byte tempMSB = (byte)((data[offset + 8] & 0x80) >> 7);
                         bool found = false;
                         if (length == 12 || (length == 11 && (data[offset + 6] & 0x03) > 1))
@@ -344,7 +344,7 @@ namespace Tobby.Max
                             else
                             {
                                 double actualTemp;
-                                actualTemp = (data[offset + 12] + tempMSB * 256) / 10;
+                                actualTemp = (data[offset + 12] + tempMSB * 256) / 10.0;
                                 foreach (Room room in rooms)
                                 {
                                     foreach (WallThermostatPlus wallT in room.WallThermostatsPlus)
@@ -359,8 +359,8 @@ namespace Tobby.Max
                             }
                         }
                         else {
-                            float actualTemp;
-                            actualTemp = data[offset + 9] + (data[offset + 8] & 0x80) * 256;
+                            double actualTemp;
+                            actualTemp = (data[offset + 9] + (data[offset + 8] & 0x80) * 256) / 10.0;
                             foreach (Room room in rooms)
                             {
                                 foreach (HeaterThermostat heater in room.HeaterThermostats)
