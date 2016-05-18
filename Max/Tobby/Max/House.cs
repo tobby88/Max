@@ -72,9 +72,9 @@ namespace Tobby.Max
                 Console.Write("desired temp    ");
                 foreach (Room room in Rooms)
                     if (room.WallThermostatsPlus.Count > 0 && room.WallThermostatsPlus.Count >= i)
-                        Console.Write(" " + room.WallThermostatsPlus[i].SetTemp.ToString("F1").PadLeft(4) + " ");
+                        Console.Write(" " + room.WallThermostatsPlus[i].SetTemp.ToString().PadLeft(4) + " ");
                     else if (room.WallThermostatsPlus.Count == 0 && room.HeaterThermostats.Count >= i)
-                        Console.Write(" " + room.HeaterThermostats[i].SetTemp.ToString("F1").PadLeft(4) + " ");
+                        Console.Write(" " + room.HeaterThermostats[i].SetTemp.ToString().PadLeft(4) + " ");
                     else
                         Console.Write("      ");
                 Console.Write(Environment.NewLine);
@@ -86,9 +86,9 @@ namespace Tobby.Max
                 Console.Write("actual temp     ");
                 foreach (Room room in Rooms)
                     if (room.WallThermostatsPlus.Count > 0 && room.WallThermostatsPlus.Count >= i)
-                        Console.Write(" " + room.WallThermostatsPlus[i].ActualTemp.ToString("F1").PadLeft(4) + " ");
+                        Console.Write(" " + room.WallThermostatsPlus[i].ActualTemp.ToString().PadLeft(4) + " ");
                     else if (room.WallThermostatsPlus.Count == 0 && room.HeaterThermostats.Count >= i)
-                        Console.Write(" " + room.HeaterThermostats[i].ActualTemp.ToString("F1").PadLeft(4) + " ");
+                        Console.Write(" " + room.HeaterThermostats[i].ActualTemp.ToString().PadLeft(4) + " ");
                     else
                         Console.Write("      ");
                 Console.Write(Environment.NewLine);
