@@ -314,7 +314,7 @@ namespace Tobby.Max
                     case 11:
                         // HeaterThermostat (also HeaterThermostat+?)
                     case 12:
-                        // WallThermostat+ (as it's very similiar to HeaterThermostats
+                        // WallThermostat+ (as it's very similiar to HeaterThermostats)
                         byte valve = data[offset + 7];
                         double setTemp = (data[offset + 8] & 0x3F)/2.0;
                         byte tempMSB = (byte)((data[offset + 8] & 0x80) >> 7);
@@ -325,7 +325,7 @@ namespace Tobby.Max
                             byte dateUntilDay, dateUntilMonth;
                             int dateUntilYear;
                             dateUntilMonth = (byte)(((data[offset + 9] & 0xE0) >> 4) | ((data[offset + 10] & 0x40) >> 6));
-                            dateUntilDay = (byte)(data[offset + 9] & 0x0F);
+                            dateUntilDay = (byte)(data[offset + 9] & 0x1F);
                             dateUntilYear = (data[offset + 10] & 0x1F) + 2000;
                             dateUntil = dateUntilDay.ToString("00") + "." + dateUntilMonth.ToString("00") + "." + dateUntilYear.ToString();
                             string timeUntil = (data[offset + 11] * 0.5).ToString("00:00");
@@ -360,7 +360,7 @@ namespace Tobby.Max
                         }
                         else {
                             double actualTemp;
-                            actualTemp = (data[offset + 9] + (data[offset + 8] & 0x80) * 256) / 10.0;
+                            actualTemp = (data[offset + 10] + (data[offset + 9] & 0x01) * 256) / 10.0;
                             foreach (Room room in rooms)
                             {
                                 foreach (HeaterThermostat heater in room.HeaterThermostats)
