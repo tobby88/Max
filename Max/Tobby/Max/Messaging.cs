@@ -314,18 +314,21 @@ namespace Tobby.Max
                     case 11:
                         // HeaterThermostat (also HeaterThermostat+?)
                     case 12:
-                        // WallThermostat+ (as it's very similiar to HeaterThermostats
+                        // WallThermostat+ (as it's very similiar to HeaterThermostats)
                         byte valve = data[offset + 7];
                         double setTemp = (data[offset + 8] & 0x3F)/2.0;
                         byte tempMSB = (byte)((data[offset + 8] & 0x80) >> 7);
                         bool found = false;
+                        Console.WriteLine("Length: {0}", length);
+                        Console.WriteLine("Mode-Flags: {0}", (data[offset + 6] & 0x03));
                         if (length == 12 || (length == 11 && (data[offset + 6] & 0x03) > 1))
                         {
+                            Console.WriteLine("(length == 12 || (length == 11 && (data[offset + 6] & 0x03) > 1)) == true");
                             string dateUntil;
                             byte dateUntilDay, dateUntilMonth;
                             int dateUntilYear;
                             dateUntilMonth = (byte)(((data[offset + 9] & 0xE0) >> 4) | ((data[offset + 10] & 0x40) >> 6));
-                            dateUntilDay = (byte)(data[offset + 9] & 0x0F);
+                            dateUntilDay = (byte)(data[offset + 9] & 0x1F);
                             dateUntilYear = (data[offset + 10] & 0x1F) + 2000;
                             dateUntil = dateUntilDay.ToString("00") + "." + dateUntilMonth.ToString("00") + "." + dateUntilYear.ToString();
                             string timeUntil = (data[offset + 11] * 0.5).ToString("00:00");
@@ -336,6 +339,7 @@ namespace Tobby.Max
                                         if (heater.RfAddress == rfAddress)
                                         {
                                             room.UpdateHeater(rfAddress, unknown, flags, valve, setTemp, dateUntil, timeUntil);
+                                            Console.WriteLine("Updated heater in room {0} with dateUntil", room.Name);
                                             found = true;
                                             break;
                                         }
@@ -351,6 +355,7 @@ namespace Tobby.Max
                                         if (wallT.RfAddress == rfAddress)
                                         {
                                             room.UpdateThermostat(rfAddress, unknown, flags, valve, setTemp, dateUntil, timeUntil, actualTemp);
+                                            Console.WriteLine("Updated thermostat in room {0}", room.Name);
                                             found = true;
                                             break;
                                         }
@@ -360,13 +365,15 @@ namespace Tobby.Max
                         }
                         else {
                             double actualTemp;
-                            actualTemp = (data[offset + 9] + (data[offset + 8] & 0x80) * 256) / 10.0;
+                            actualTemp = (data[offset + 9] + (data[offset + 8] & 0x01) * 256) / 10.0;
+                            Console.WriteLine("Actual Temp on heating thermostat: {0}", actualTemp.ToString("F1"));
                             foreach (Room room in rooms)
                             {
                                 foreach (HeaterThermostat heater in room.HeaterThermostats)
                                     if (heater.RfAddress == rfAddress)
                                     {
                                         room.UpdateHeater(rfAddress, unknown, flags, valve, setTemp, actualTemp);
+                                        Console.WriteLine("Updated heater in room {0} with actualTemp {1}", room.Name, actualTemp);
                                         found = true;
                                         break;
                                     }
