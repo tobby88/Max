@@ -60,49 +60,49 @@ namespace Tobby.Max
             }
 
             // print date and first two letters of room names
-            Console.Write("{0} {1} ", Cube.CubeDate.PadRight(10), Cube.CubeTime.PadRight(5));
+            Console.Write(Cube.CubeDate.PadRight(10) + " " + Cube.CubeTime.PadRight(5) + " ");
             foreach (Room room in Rooms)
-                Console.Write("  {0}  ", room.Name.Substring(0, 2));
+                Console.Write(room.Name.Substring(0, 2).PadLeft(5) + "".PadRight(3));
             Console.Write(Environment.NewLine);
 
             // TODO:
             // print desired temperatures
             for (int i = 0; i < maximumTemps; i++)
             {
-                Console.Write("desired temp    ");
+                Console.Write("desired temp".PadRight(17));
                 foreach (Room room in Rooms)
                     if (room.WallThermostatsPlus.Count > 0 && room.WallThermostatsPlus.Count >= i)
-                        Console.Write(" " + room.WallThermostatsPlus[i].SetTemp.ToString("F1").PadLeft(4) + " ");
+                        Console.Write(room.WallThermostatsPlus[i].SetTemp.ToString("F1").PadLeft(6) + "".PadRight(2));
                     else if (room.WallThermostatsPlus.Count == 0 && room.HeaterThermostats.Count >= i)
-                        Console.Write(" " + room.HeaterThermostats[i].SetTemp.ToString("F1").PadLeft(4) + " ");
+                        Console.Write(room.HeaterThermostats[i].SetTemp.ToString("F1").PadLeft(6) + "".PadRight(2));
                     else
-                        Console.Write("      ");
+                        Console.Write("".PadRight(8));
                 Console.Write(Environment.NewLine);
             }
 
             // print actual temperatures
             for (int i = 0; i < maximumTemps; i++)
             {
-                Console.Write("actual temp     ");
+                Console.Write("actual temp".PadRight(17));
                 foreach (Room room in Rooms)
                     if (room.WallThermostatsPlus.Count > 0 && room.WallThermostatsPlus.Count >= i)
-                        Console.Write(" " + room.WallThermostatsPlus[i].ActualTemp.ToString("F1").PadLeft(4) + " ");
+                        Console.Write(room.WallThermostatsPlus[i].ActualTemp.ToString("F1").PadLeft(6) + "".PadRight(2));
                     else if (room.WallThermostatsPlus.Count == 0 && room.HeaterThermostats.Count >= i)
-                        Console.Write(" " + room.HeaterThermostats[i].ActualTemp.ToString("F1").PadLeft(4) + " ");
+                        Console.Write(room.HeaterThermostats[i].ActualTemp.ToString("F1").PadLeft(6) + "".PadRight(2));
                     else
-                        Console.Write("      ");
+                        Console.Write("".PadRight(8));
                 Console.Write(Environment.NewLine);
             }
 
             // print valve positions
             for (int i = 0; i < maximumValves; i++)
             {
-                Console.Write("valve position  ");
+                Console.Write("valve position".PadRight(17));
                 foreach (Room room in Rooms)
                     if (room.HeaterThermostats.Count > 0 && room.HeaterThermostats.Count >= i)
-                        Console.Write(" " + room.HeaterThermostats[i].Valve.ToString().PadLeft(3) + "% ");
+                        Console.Write(room.HeaterThermostats[i].Valve.ToString().PadLeft(5) + "%".PadRight(3));
                     else
-                        Console.Write("      ");
+                        Console.Write("".PadRight(8));
                 Console.Write(Environment.NewLine);
             }
         }
